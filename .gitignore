@@ -4,9 +4,9 @@
 *.crt
 *.exe
 *.dll
-!filestore/cagent.exe
-!filestore/CraterMain.exe
-!filestore/CraterMain.dll
+!payloads/cagent.exe
+!payloads/CraterMain.exe
+!payloads/CraterMain.dll
 *.pyd
 *.DS_Store
 *.spec

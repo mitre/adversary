@@ -8,6 +8,7 @@ from plugins.adversary.app.service.background import BackgroundTasks
 name = 'Adversary'
 description = 'Adds the full Adversary mode, including REST and GUI components'
 address = '/plugin/adversary/gui'
+store = 'plugins/adversary/payloads'
 
 
 async def setup_routes_and_services(app, services):
@@ -27,9 +28,9 @@ async def setup_routes_and_services(app, services):
     auth_svc.set_authorized_route('*', '/adversary', adversary_api.planner)
     auth_svc.set_authorized_route('POST', '/operation/refresh', adversary_api.refresh)
     auth_svc.set_authorized_route('POST', '/operation', adversary_api.start_operation)
-    auth_svc.set_authorized_route('*', '/adversary/logs/plan', adversary_api.download_logs)
-    auth_svc.set_authorized_route('*', '/adversary/logs/bsf', adversary_api.download_bsf)
-    auth_svc.set_authorized_route('*', '/adversary/logs/operation', adversary_api.download_operation)
+    auth_svc.set_authorized_route('*', '/operation/logs/plan', adversary_api.download_logs)
+    auth_svc.set_authorized_route('*', '/operation/logs/bsf', adversary_api.download_bsf)
+    auth_svc.set_authorized_route('*', '/operation/logs/operation', adversary_api.download_operation)
     auth_svc.set_authorized_route('POST', '/terminate', adversary_api.rebuild_database)
     auth_svc.set_authorized_route('*', '/settings', adversary_api.settings)
 

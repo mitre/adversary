@@ -783,7 +783,7 @@ function downloadLogs(type) {
     if(operation == '') {
         alert("You must select an operation first!");
     } else {
-        window.location.href = '/adversary/logs/'+type+'?id=' + operation;
+        window.location.href = '/operation/logs/'+type+'?id=' + operation;
     }
 }
 

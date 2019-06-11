@@ -1,6 +1,6 @@
 import base64
 import logging
-import ujson as json
+import json
 from collections import UserDict
 from typing import Dict, Union, Callable, Set
 

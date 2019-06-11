@@ -1,6 +1,6 @@
 import json
 import socket
-import ujson as json_module
+import json as json_module
 from datetime import datetime, timezone
 from functools import wraps
 

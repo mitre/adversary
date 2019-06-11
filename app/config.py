@@ -14,7 +14,7 @@ class AdversaryPluginSettings:
         if filestore_path is not None:
             self.filestore_path = filestore_path
         else:
-            self.filestore_path = str(self.plugin_root / 'filestore')
+            self.filestore_path = str(self.plugin_root / 'payloads')
         self.exe_rat_path = self.filestore_path + '/CraterMain.exe'
         self.dll_rat_path = self.filestore_path + '/CraterMain.dll'
         self.config_dir = str(self.plugin_root / 'conf')
