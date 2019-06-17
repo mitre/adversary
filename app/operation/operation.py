@@ -185,7 +185,7 @@ class ServerOperation(object):
     """This manages running an operation
     """
 
-    def __init__(self, con, operation: Operation, op_svc):
+    def __init__(self, con, operation: Operation, api_logic):
         """
         This is an object that manages running an operation
 
@@ -212,7 +212,7 @@ class ServerOperation(object):
         self._rat_waiters = []
         self._exfil_server = None
         self.bsf_emitter = event_logging.BSFEmitter(self._operation.log)
-        self.op_svc = op_svc
+        self.api_logic = api_logic
 
     def rat_connected(self, rat_dict: Dict) -> None:
         """
@@ -308,7 +308,7 @@ class ServerOperation(object):
                             break
                     if not found:
                         self.rat_connected(rat.to_dict())
-            await self.op_svc.run_operation(str(self._operation.id))
+            await self.api_logic.op_control.run_operation(str(self._operation.id))
 
             async def job_delay():
                 """
@@ -356,7 +356,7 @@ class ServerOperation(object):
                     break
                 else:
                     raise CaseException
-                cancel = await self.op_svc.check_status(str(self._operation.id))
+                cancel = await self.api_logic.op_control.check_status(str(self._operation.id))
                 if cancel and self._operation.status != "complete":
                     self._operation.modify(status="cleanup", reason="Cancel Requested")
                 await job_delay()

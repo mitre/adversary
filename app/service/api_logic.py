@@ -1,5 +1,4 @@
 import array
-import asyncio
 import base64
 import logging
 import os
@@ -12,19 +11,20 @@ from aiohttp import web
 from bson import ObjectId
 
 import plugins.adversary.app.config as config
+from plugins.adversary.app import interface
+from plugins.adversary.app import powershell
 from plugins.adversary.app.attack import refresh_attack
 from plugins.adversary.app.engine.objects import Agent, Job, Rat
 from plugins.adversary.app.extern import load_psexec, obf_rat
-from plugins.adversary.app import interface
-from plugins.adversary.app import powershell
+from plugins.adversary.app.utility.op_control import OpControl
 
 
 class ApiLogic:
 
-    def __init__(self, dao, auth_service, op_service):
+    def __init__(self, dao, auth_service, chain_dao):
         self.dao = dao
-        self.op_svc = op_service
         self.ssl_cert = auth_service.ssl_cert
+        self.op_control = OpControl(chain_dao)
 
     @staticmethod
     async def get_api_jobs(status, agent_id, wait):

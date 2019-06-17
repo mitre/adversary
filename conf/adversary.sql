@@ -1,0 +1,1 @@
+CREATE TABLE if not exists opstate (operation text primary key, state text, UNIQUE(operation));

@@ -1,16 +1,16 @@
 import json
 import socket
-import json as json_module
 from datetime import datetime, timezone
 from functools import wraps
 
-from aiohttp_jinja2 import template
+import ujson as json_module
 from aiohttp import web
+from aiohttp_jinja2 import template
 from bson import ObjectId
 
 import plugins.adversary.app.authentication as auth
-import plugins.adversary.app.util as util
 import plugins.adversary.app.config as config
+import plugins.adversary.app.util as util
 from plugins.adversary.app.engine.database import native_types
 from plugins.adversary.app.service.background import BackgroundTasks
 from plugins.adversary.app.service.explode import Explode
@@ -271,13 +271,13 @@ class AdversaryApi:
         mode = data['mode']
         result = "ok"
         if mode == 'pause':
-            await self.api_logic.op_svc.pause_operation(target)
+            await self.api_logic.op_control.pause_operation(target)
         elif mode == 'run':
-            await self.api_logic.op_svc.run_operation(target)
+            await self.api_logic.op_control.run_operation(target)
         elif mode == 'cancel':
-            await self.api_logic.op_svc.cancel_operation(target)
+            await self.api_logic.op_control.cancel_operation(target)
         elif mode == 'state':
-            result = await self.api_logic.op_svc.get_state(target)
+            result = await self.api_logic.op_control.get_state(target)
         else:
             result = "unknown"
         return web.json_response(dict(result=result))
