@@ -21,9 +21,13 @@ from plugins.adversary.app.utility.op_control import OpControl
 
 class ApiLogic:
 
-    def __init__(self, dao, auth_service, chain_dao):
+    SSL_CERT_FILE = 'conf/cert.pem'
+    with open(SSL_CERT_FILE) as cert_file:
+        SSL_CERT = cert_file.read()
+
+    def __init__(self, dao, chain_dao):
         self.dao = dao
-        self.ssl_cert = auth_service.ssl_cert
+        self.ssl_cert = self.SSL_CERT
         self.op_control = OpControl(chain_dao)
 
     @staticmethod

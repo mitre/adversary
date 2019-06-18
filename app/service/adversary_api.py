@@ -32,9 +32,10 @@ def require_token(view_function):
 
 class AdversaryApi:
 
-    def __init__(self, api_logic, auth_key):
+    def __init__(self, api_logic, auth_key, auth_svc):
         self.api_logic = api_logic
         self.auth_key = auth_key
+        self.auth_svc = auth_svc
         self.background = BackgroundTasks(api_logic=api_logic)
 
     async def rat_download(self, request):
@@ -157,26 +158,29 @@ class AdversaryApi:
         resp_json = json_module.dumps(native_types(resp), sort_keys=True, indent=4)
         return web.Response(text=resp_json, content_type="application/json")
 
-    @staticmethod
-    async def download_logs(request):
+    async def download_logs(self, request):
+        await self.auth_svc.check_permissions(request)
         op_id = request.rel_url.query['id']
         headers = dict([('CONTENT-DISPOSITION', 'attachment; filename="%s"' % op_id)])
         with open('.logs/%s' % op_id, 'r') as f:
             return web.Response(body=f.read(), content_type='application/json', headers=headers)
 
     async def start_operation(self, request):
+        await self.auth_svc.check_permissions(request)
         with self.api_logic.dao as con:
             data = await request.post()
             con.update('operation', data.get('id'), dict(status='start'))
         return web.json_response('operation started')
 
     async def rebuild_database(self, request):
+        await self.auth_svc.check_permissions(request)
         with self.api_logic.dao as con:
             con.terminate()
             await self.background.database_seed()
         return web.json_response('terminated')
 
     async def download_bsf(self, request):
+        await self.auth_svc.check_permissions(request)
         op_id = request.rel_url.query['id']
         with self.api_logic.dao as con:
             full_op = con.get_operations(ids=[op_id])[0]
@@ -185,6 +189,7 @@ class AdversaryApi:
             return web.Response(body=json.dumps(bsf, indent=4), content_type='application/json', headers=headers)
 
     async def download_operation(self, request):
+        await self.auth_svc.check_permissions(request)
         op_id = request.rel_url.query['id']
         with self.api_logic.dao as con:
             full_op = Explode(con).operation(id=op_id)[0]
@@ -192,6 +197,7 @@ class AdversaryApi:
             return web.Response(body=json.dumps(full_op), content_type='application/json', headers=headers)
 
     async def refresh(self, request):
+        await self.auth_svc.check_permissions(request)
         with self.api_logic.dao as con:
             op = None
             exploder = Explode(con)
@@ -208,6 +214,7 @@ class AdversaryApi:
 
     @template('adversary.html')
     async def planner(self, request):
+        await self.auth_svc.check_permissions(request)
         with self.api_logic.dao as con:
             if request.method == 'PUT':
                 data = dict(await request.json())
@@ -258,6 +265,7 @@ class AdversaryApi:
 
     @template('settings.html')
     async def settings(self, request):
+        await self.auth_svc.check_permissions(request)
         with self.api_logic.dao as con:
             if request.method == 'POST':
                 data = dict(await request.post())
@@ -266,6 +274,7 @@ class AdversaryApi:
             return dict(settings=con.get_settings()[0])
 
     async def control(self, request):
+        await self.auth_svc.check_permissions(request)
         data = dict(await request.post())
         target = data['id']
         mode = data['mode']
