@@ -21,7 +21,7 @@ from plugins.adversary.app.utility.op_control import OpControl
 
 class ApiLogic:
 
-    SSL_CERT_FILE = 'conf/cert.pem'
+    SSL_CERT_FILE = 'plugins/adversary/conf/cert.pem'
     with open(SSL_CERT_FILE) as cert_file:
         SSL_CERT = cert_file.read()
 
