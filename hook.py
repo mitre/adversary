@@ -28,9 +28,9 @@ async def setup_routes_and_services(app, services):
     app.router.add_route('*', '/adversary', adversary_api.planner)
     app.router.add_route('POST', '/operation/refresh', adversary_api.refresh)
     app.router.add_route('POST', '/operation', adversary_api.start_operation)
-    app.router.add_route('*', '/adversary/logs/plan', adversary_api.download_logs)
-    app.router.add_route('*', '/adversary/logs/bsf', adversary_api.download_bsf)
-    app.router.add_route('*', '/adversary/logs/operation', adversary_api.download_operation)
+    app.router.add_route('*', '/operation/logs/plan', adversary_api.download_logs)
+    app.router.add_route('*', '/operation/logs/bsf', adversary_api.download_bsf)
+    app.router.add_route('*', '/operation/logs/operation', adversary_api.download_operation)
     app.router.add_route('POST', '/terminate', adversary_api.rebuild_database)
     app.router.add_route('*', '/settings', adversary_api.settings)
 
