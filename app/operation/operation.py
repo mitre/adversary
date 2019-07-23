@@ -1015,9 +1015,9 @@ class ServerOperation(object):
         exfil_server = socketserver.TCPServer(("0.0.0.0", int(port)), handler)
         if method == "https":
             exfil_server.socket = ssl.wrap_socket(exfil_server.socket,
-                                                  certfile='conf/cert.pem',
+                                                  certfile='plugins/adversary/conf/cert.pem',
                                                   server_side=True,
-                                                  keyfile='conf/key.pem')
+                                                  keyfile='plugins/adversary/conf/key.pem')
         return exfil_server
 
 
