@@ -12,7 +12,12 @@ To use this plugin, you must have a Mongo database installed and running locally
 Detailed MongoDB Server installation instructions can be found here: 
 https://docs.mongodb.com/manual/installation/#mongodb-community-edition-installation-tutorials
 
-This plugin also requires that you load the GUI plugin with it.
+If installing/using this plugin offline, make sure to download the necessary dependencies:
+```bash
+pip download -r caldera/plugins/adversary/requirements.txt --dest /caldera/python_deps
+```
+
+Please note, this plugin also requires that you load the GUI plugin with it.
 
 ## BSF
 

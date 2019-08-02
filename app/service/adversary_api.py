@@ -1,9 +1,8 @@
-import json
 import socket
 from datetime import datetime, timezone
 from functools import wraps
 
-import ujson as json_module
+import json
 from aiohttp import web
 from aiohttp_jinja2 import template
 from bson import ObjectId
@@ -140,7 +139,7 @@ class AdversaryApi:
         status = request.rel_url.query['status'] if 'status' in request.rel_url.query else None
         wait = request.rel_url.query['wait'] if 'wait' in request.rel_url.query else False
         jobs = await self.api_logic.get_api_jobs(status, token.session_info['_id'], wait)
-        resp_json = json_module.dumps(native_types(jobs), sort_keys=True, indent=4)
+        resp_json = json.dumps(native_types(jobs), sort_keys=True, indent=4)
         return web.Response(text=resp_json, content_type="application/json")
 
     @require_token
@@ -155,15 +154,19 @@ class AdversaryApi:
             if job['status'] in ('created', 'pending') and job['agent'] == token.session_info['_id']:
                 data = await request.json()
                 resp = await self.api_logic.put_job_details(data, job)
-        resp_json = json_module.dumps(native_types(resp), sort_keys=True, indent=4)
+        resp_json = json.dumps(native_types(resp), sort_keys=True, indent=4)
         return web.Response(text=resp_json, content_type="application/json")
 
     async def download_logs(self, request):
         await self.auth_svc.check_permissions(request)
         op_id = request.rel_url.query['id']
         headers = dict([('CONTENT-DISPOSITION', 'attachment; filename="%s"' % op_id)])
-        with open('.logs/%s' % op_id, 'r') as f:
+        with open('plugins/adversary/.logs/%s.log' % op_id, 'r') as f:
             return web.Response(body=f.read(), content_type='application/json', headers=headers)
+
+    async def cagent(self, request):
+        with open('plugins/adversary/templates/Install-Cagent.ps1', 'r') as f:
+            return web.Response(body=f.read())
 
     async def start_operation(self, request):
         await self.auth_svc.check_permissions(request)

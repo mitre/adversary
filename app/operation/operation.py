@@ -12,6 +12,7 @@ import traceback
 import http.server
 import socketserver
 import mongoengine
+import os
 
 from mongoengine import ListField, ReferenceField
 from bson.objectid import ObjectId
@@ -181,6 +182,17 @@ class RatSubscriber(object):
             self.active_task.cancel()
 
 
+def BuildServerLog(ID: str):
+    log_core = logging.getLogger('ops')
+    if not os.path.isdir('plugins/adversary/.logs'):
+        os.mkdir('plugins/adversary/.logs')
+    fh = logging.FileHandler('plugins/adversary/.logs/' + ID + '.log')
+    fh.setLevel(logging.DEBUG)
+    formating = logging.Formatter('%(levelname)s@%(asctime)s - %(message)s', '%Y-%m-%d %H:%M:%S')
+    fh.setFormatter(formating)
+    log_core.addHandler(fh)
+    return log_core
+
 class ServerOperation(object):
     """This manages running an operation
     """
@@ -193,7 +205,7 @@ class ServerOperation(object):
             operation: The operation object that will be run
         """
         self.con = con
-        self.logger = logging
+        self.logger = BuildServerLog(str(operation['id']))
         self._operation = operation
         self._steps = {step.__name__: step for step in Step.__subclasses__() if step.__name__ in operation.steps}
         self.performed_action = DBAction(operation)

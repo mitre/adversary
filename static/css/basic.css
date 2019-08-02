@@ -400,3 +400,6 @@ a {
     font-size: 18px;
     color: white;
 }
+.selected {
+    background-color: var(--theme-color);
+}

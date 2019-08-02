@@ -39,6 +39,6 @@ function Install-Cagent($CalderaServer) {
 # has not been added to the endpoint's Certificate Manager.
 # [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
 
-# NOTE: Depending on how CALDERA is deployed, it may be necessary to edit the CalderaServer address below (use
-# the base URL that allows you to navigate to the CALDERA WebUI from the endpoint https://<caldera host>:<caldera port>).
+# NOTE: Replase the 'url_root' value below with the base URL that allows you to navigate to the CALDERA WebUI from
+# the endpoint [http{s}://caldera_host:caldera_port].
 Install-Cagent -CalderaServer {{ url_root }}

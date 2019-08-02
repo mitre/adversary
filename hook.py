@@ -33,6 +33,7 @@ async def setup_routes_and_services(app, services):
     app.router.add_route('*', '/operation/logs/operation', adversary_api.download_operation)
     app.router.add_route('POST', '/terminate', adversary_api.rebuild_database)
     app.router.add_route('*', '/settings', adversary_api.settings)
+    app.router.add_route('*', '/cagent', adversary_api.cagent)
 
     app.router.add_route('POST', '/op/control', adversary_api.control)
 

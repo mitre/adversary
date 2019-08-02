@@ -794,8 +794,9 @@ function previewRender() {
         $("#cagentInstallScriptPreview").html("");
         cagentInstallPreviewDisplayed = false;
     } else {
+        console.log('huh?');
         $.ajax({
-            url: `/file/render`,
+            url: `/cagent`,
             type: 'post',
             data: {},
             headers: {file: 'Install-Cagent.ps1'},
