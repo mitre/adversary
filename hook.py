@@ -11,7 +11,7 @@ address = '/plugin/adversary/gui'
 
 
 async def setup_routes_and_services(app, services):
-    await services.get('data_svc').reload_database(schema='plugins/adversary/conf/adversary.sql')
+    await services.get('data_svc').load_data(schema='plugins/adversary/conf/adversary.sql')
 
     auth_svc = services.get('auth_svc')
     api_logic = ApiLogic(config.settings.dao, services.get('data_svc').dao)

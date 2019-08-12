@@ -16,7 +16,7 @@ import os
 
 from mongoengine import ListField, ReferenceField
 from bson.objectid import ObjectId
-from plugins.adversary.app.utility.general import get_simulated_domain_data
+from plugins.adversary.app.utility.simulation import get_simulated_domain_data
 
 from plugins.adversary.app.operation.operation_obj import InterfaceWrapper, OperationWrapper
 from plugins.adversary.app.operation.operation_script import ScriptContext

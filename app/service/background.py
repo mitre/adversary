@@ -23,7 +23,7 @@ from plugins.adversary.app.logic import logic, planner
 from plugins.adversary.app.operation.operation import ServerOperation
 from plugins.adversary.app.service.explode import Explode
 from plugins.adversary.app.steps import all_steps
-from plugins.adversary.app.utility.general import get_simulated_domain_data
+from plugins.adversary.app.utility.simulation import get_simulated_domain_data
 
 
 class BackgroundTasks:

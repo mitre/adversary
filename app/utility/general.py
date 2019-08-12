@@ -1,8 +1,6 @@
 import asyncio
-import json
 import os
 
-import plugins.adversary.app.config as config
 from cryptography.fernet import Fernet
 
 """
@@ -62,14 +60,3 @@ def string_to_bool_for_entry(normalize_string):
     if normalize_string.lower() in ('true', 't'):
         return True
     return False
-
-
-def get_simulated_domain_data(domain=None):
-    try:
-        with open('%s/simulation.json' % config.settings.config_dir) as sims:
-            world = json.load(sims)
-            if domain:
-                return next(item for item in world['domains'] if item['name'] == domain)
-            return world['domains']
-    except:
-        return None

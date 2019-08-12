@@ -1,7 +1,7 @@
 import asyncio
 import random
 
-from plugins.adversary.app.utility.general import get_simulated_domain_data
+from plugins.adversary.app.utility.simulation import get_simulated_domain_data
 
 """
 This module is designed to mock out Windows commands and return the parsed Python objects
